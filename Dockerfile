@@ -5,9 +5,10 @@ ENV PG_PORT=5432
 ENV PG_DATABASE=local
 ENV PG_USER=root
 ENV PG_PASSWORD=1234
+ENV LISTEN_POST=8080
 
 EXPOSE 8080
 
 COPY src /src
 RUN cd /src && go build -o /shortener
-CMD sleep 30 && /shortener --connection-string="postgres://$PG_USER:$PG_PASSWORD@$PG_HOST:$PG_PORT/$PG_DATABASE?sslmode=disable"
+CMD /shortener --listen=:$LISTEN_POST --connection-string="postgres://$PG_USER:$PG_PASSWORD@$PG_HOST:$PG_PORT/$PG_DATABASE?sslmode=disable"

@@ -1,10 +1,22 @@
 services:
   shortener-ydb:
+    depends_on:
+      ydb:
+        condition: service_healthy
     build: .
     environment:
       - PG_HOST=ydb
     ports:
-      - "8080:8080"
+      - "2001:8080"
+  shortener-postgres:
+    depends_on:
+      postgres:
+        condition: service_healthy
+    build: .
+    environment:
+      - PG_HOST=postgres
+    ports:
+      - "2002:8080"
   ydb:
     image: ghcr.io/ydb-platform/local-ydb:trunk
     hostname: localhost
@@ -20,7 +32,7 @@ services:
       - "YDB_TABLE_ENABLE_PREPARED_DDL=true"
     ports:
       - "5432:5432" # Postgres port
-      - "8765:8765" # Monitor
+      - "3001:8765" # Monitor
   postgres:
     image: postgres:14
     environment:
@@ -29,10 +41,14 @@ services:
       - "POSTGRES_DB=local"
     ports:
       - "5433:5432"
+    healthcheck:
+      test: /usr/bin/pg_isready
+      interval: 5s
+      timeout: 1m
   pgadmin:
     image: dpage/pgadmin4:7.6
     environment:
       - "PGADMIN_DEFAULT_EMAIL=scale@cloud.yandex.ru"
       - "PGADMIN_DEFAULT_PASSWORD=scale-2023"
     ports:
-      - "1080:80"
+      - "3002:80"
