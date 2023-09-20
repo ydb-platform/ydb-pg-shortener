@@ -1,0 +1,38 @@
+services:
+  shortener-ydb:
+    build: .
+    environment:
+      - PG_HOST=ydb
+    ports:
+      - "8080:8080"
+  ydb:
+    image: ghcr.io/ydb-platform/local-ydb:trunk
+    hostname: localhost
+    environment:
+      - "GRPC_TLS_PORT=2135"
+      - "GRPC_PORT=2136"
+      - "MON_PORT=8765"
+      - "YDB_USE_IN_MEMORY_PDISKS=true"
+      - "YDB_LOCAL_SURVIVE_RESTART=true"
+      - "POSTGRES_USER=root"
+      - "POSTGRES_PASSWORD=1234"
+      - "YDB_FEATURE_FLAGS=enable_temp_tables"
+      - "YDB_TABLE_ENABLE_PREPARED_DDL=true"
+    ports:
+      - "5432:5432" # Postgres port
+      - "8765:8765" # Monitor
+  postgres:
+    image: postgres:14
+    environment:
+      - "POSTGRES_USER=root"
+      - "POSTGRES_PASSWORD=1234"
+      - "POSTGRES_DB=local"
+    ports:
+      - "5433:5432"
+  pgadmin:
+    image: dpage/pgadmin4:7.6
+    environment:
+      - "PGADMIN_DEFAULT_EMAIL=scale@cloud.yandex.ru"
+      - "PGADMIN_DEFAULT_PASSWORD=scale-2023"
+    ports:
+      - "1080:80"
