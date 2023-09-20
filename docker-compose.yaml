@@ -48,7 +48,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4:7.6
     environment:
-      - "PGADMIN_DEFAULT_EMAIL=scale@cloud.yandex.ru"
-      - "PGADMIN_DEFAULT_PASSWORD=scale-2023"
+      - "PGADMIN_DEFAULT_EMAIL=test@test.com"
+      - "PGADMIN_DEFAULT_PASSWORD=test"
     ports:
       - "3002:80"
