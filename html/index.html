@@ -28,7 +28,7 @@
         }
 
         a.button {
-            background-color: #B3801CFF;
+            background-color: lightgray;
             border: 1px solid #660000;
             border-radius: 5px;
             /*color:#fff;*/
@@ -43,7 +43,7 @@
         }
 
         .button.active {
-            background-color: #E5B084FF;
+            background-color: green;
         }
     </style>
 </header>
@@ -86,6 +86,13 @@
     </div>
 </div>
 <script>
+
+    function preventChangePageAlert(){
+        window.onbeforeunload = function (){};
+        document.getElementsByTagName('shortener')[0].contentWindow.onbeforeunload = function (){};
+        document.getElementsByTagName('admin')[0].contentWindow.onbeforeunload = function (){};
+    }
+
     function selectYDB(ev) {
         $('.ydb')
             .addClass('active');
@@ -94,6 +101,7 @@
         $('[name=shortener]').attr('src', '//' + window.location.hostname + ':2001/');
         $('[name=admin]').attr('src', '//' + window.location.hostname + ':3001/monitoring/');
         ev.preventDefault();
+        preventChangePageAlert();
         return false;
     }
 
@@ -105,6 +113,7 @@
         $('[name=shortener]').attr('src', '//' + window.location.hostname +':2002/');
         $('[name=admin]').attr('src', '//' + window.location.hostname +':3002/');
         ev.preventDefault();
+        preventChangePageAlert();
         return false;
     }
 
