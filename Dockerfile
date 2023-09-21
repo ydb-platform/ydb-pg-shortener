@@ -7,7 +7,7 @@ ENV PG_USER=root
 ENV PG_PASSWORD=1234
 ENV LISTEN_POST=8080
 
-EXPOSE 8080
+EXPOSE :$LISTEN_POST
 
 COPY src /src
 RUN cd /src && go build -o /shortener

@@ -3,7 +3,8 @@ The project is example of application, which can work both with ydb and postgres
 Run docker-compose for start test environments:
 
 ```bash
-docker-compose up --pull=always --build -d
+docker pull ghcr.io/ydb-platform/local-ydb:nightly  # use latest ydb image
+docker-compose up --build -d
 ```
 
 Then you can open:

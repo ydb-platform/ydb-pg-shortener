@@ -1,0 +1,119 @@
+<html>
+<header>
+    <meta charset="UTF-8">
+    <title>test page</title>
+    <script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        .parent {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            grid-column-gap: 20px;
+            grid-row-gap: 20px;
+            width: calc(100vw - 60px);
+            height: calc(100vh - 40px);
+            margin-left: 20px;
+        }
+
+        .div1 {
+            grid-area: 1 / 1 / 4 / 3;
+        }
+
+        .div2 {
+            grid-area: 4 / 1 / 11 / 2;
+        }
+
+        .div3 {
+            grid-area: 4 / 2 / 11 / 3;
+        }
+
+        a.button {
+            background-color: #B3801CFF;
+            border: 1px solid #660000;
+            border-radius: 5px;
+            /*color:#fff;*/
+            /*margin-right:10px;*/
+            padding: 10px 10px 10px 10px;
+            text-decoration: none;
+
+        }
+
+        a:link {
+            color: white;
+        }
+
+        .button.active {
+            background-color: #E5B084FF;
+        }
+    </style>
+</header>
+<body>
+<div class="parent">
+    <div class="div1">
+        Перед вами приложение для сокращения ссылок. После отправки URL из поля ввода генерируется и сохраняется в базу
+        данных сокращенная ссылка.<br/>
+        Особенность этого приложения состоит в том, что оно использует PostgreSQL-драйвер для работы с базой данных, а
+        значит — совместимо и с YDB, и с PostgreSQL.<br/>
+        <br/>
+        На экране приложения вы можете выбрать базу данных, которая должна быть использована.
+        В соседних вкладках (можно ли так?) открыт интерфейс, из которого доступен просмотр содержимого обеих таблиц.
+        Можно наблюдать, как сокращенные ссылки сохраняются в выбранную базу.<br/>
+        <br/>
+        <table>
+            <tr>
+                <td height="60px"><a class="button ydb"
+                                     target="viewer">Shortener
+                        YDB</a></td>
+                <td width="40px">&nbsp</td>
+                <td height="60px"><a class="button postgres" target="viewer">Shortener
+                        Postgres</a>
+                </td>
+            </tr>
+            <tr>
+                <td height="60px"><a class="button ydb" target="viewer">YDB
+                        UI</a><br/></td>
+                <td width="40px">&nbsp</td>
+                <td height="60px"><a class="button postgres" target="viewer">PgAdmin</a><br/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="div2">
+        <iframe name="shortener" style="width: 100%; height: 100%;"></iframe>
+    </div>
+    <div class="div3">
+        <iframe name="admin" style="width: 100%; height: 100%;"></iframe>
+    </div>
+</div>
+<script>
+    function selectYDB(ev) {
+        $('.ydb')
+            .addClass('active');
+        $('.postgres')
+            .removeClass('active');
+        $('[name=shortener]').attr('src', '//' + window.location.hostname + ':2001/');
+        $('[name=admin]').attr('src', '//' + window.location.hostname + ':3001/monitoring/');
+        ev.preventDefault();
+        return false;
+    }
+
+    function selectPostgres(ev) {
+        $('.postgres')
+            .addClass('active');
+        $('.ydb')
+            .removeClass('active');
+        $('[name=shortener]').attr('src', '//' + window.location.hostname +':2002/');
+        $('[name=admin]').attr('src', '//' + window.location.hostname +':3002/');
+        ev.preventDefault();
+        return false;
+    }
+
+    $(document).ready(function () {
+        $('.ydb')
+            .click(selectYDB);
+        $('.postgres')
+            .click(selectPostgres);
+    })
+</script>
+</body>
+</html>

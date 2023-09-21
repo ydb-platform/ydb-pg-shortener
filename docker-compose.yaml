@@ -18,7 +18,7 @@ services:
     ports:
       - "2002:8080"
   ydb:
-    image: ghcr.io/ydb-platform/local-ydb:trunk
+    image: ghcr.io/ydb-platform/local-ydb:nightly
     hostname: localhost
     environment:
       - "GRPC_TLS_PORT=2135"
@@ -50,5 +50,14 @@ services:
     environment:
       - "PGADMIN_DEFAULT_EMAIL=test@test.com"
       - "PGADMIN_DEFAULT_PASSWORD=test"
+      - "PGADMIN_CONFIG_X_FRAME_OPTIONS=\"\""
+      - "PGADMIN_CONFIG_X_CONTENT_TYPE_OPTIONS=\"\""
+      - "PGADMIN_CONFIG_X_XSS_PROTECTION=\"\""
     ports:
       - "3002:80"
+  nginx:
+    image: nginx:1.25.2
+    ports:
+      - "3000:80"
+    volumes:
+      - "./html:/usr/share/nginx/html:ro"
