@@ -3,6 +3,7 @@ services:
     depends_on:
       ydb:
         condition: service_healthy
+    restart: always
     build: .
     environment:
       - PG_HOST=ydb
@@ -12,6 +13,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    restart: always
     build: .
     environment:
       - PG_HOST=postgres
@@ -20,6 +22,12 @@ services:
   ydb:
     image: ghcr.io/ydb-platform/local-ydb:nightly
     hostname: localhost
+    restart: always
+    healthcheck:
+      test: "/bin/sh /health_check"
+      interval: 1s
+      start_period: 1m
+    command: "bash -c 'rm -rf /ydb_data; sh ./initialize_local_ydb'"
     environment:
       - "GRPC_TLS_PORT=2135"
       - "GRPC_PORT=2136"
@@ -35,6 +43,7 @@ services:
       - "3001:8765" # Monitor
   postgres:
     image: postgres:14
+    restart: always
     environment:
       - "POSTGRES_USER=root"
       - "POSTGRES_PASSWORD=1234"
@@ -61,3 +70,10 @@ services:
       - "3000:80"
     volumes:
       - "./html:/usr/share/nginx/html:ro"
+  autohealth:
+    image: willfarrell/autoheal
+    restart: always
+    environment:
+      - "AUTOHEAL_CONTAINER_LABEL=all"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"

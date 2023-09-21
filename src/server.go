@@ -50,6 +50,7 @@ func NewHandler(logger *zap.Logger, storage Storage) *Handler {
 	handler.gin.Handle(http.MethodGet, "/", handler.mainPage)
 	handler.gin.Handle(http.MethodGet, "/r/:id", handler.redirect)
 	handler.gin.Handle(http.MethodPost, "/", handler.addURL)
+	handler.gin.Handle(http.MethodGet, "/ping", handler.pingDatabase)
 
 	return handler
 }
@@ -144,6 +145,15 @@ func (s *Handler) addURL(ctx *gin.Context) {
 		return
 	}
 	logger.Debug("OK")
+}
+
+func (s *Handler) pingDatabase(ctx *gin.Context) {
+	_, err := s.storage.GetURL(ctx, "unknown-url")
+	if errors.Is(err, ErrNotFound) {
+		_, _ = ctx.Writer.WriteString("OK\n")
+		return
+	}
+	_ = ctx.AbortWithError(http.StatusInternalServerError, fmt.Errorf("got db error: %v", err))
 }
 
 func (s *Handler) errorPage(ctx *gin.Context, code int, errorText string) {

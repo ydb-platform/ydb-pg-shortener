@@ -12,3 +12,6 @@ EXPOSE :$LISTEN_POST
 COPY src /src
 RUN cd /src && go build -o /shortener
 CMD /shortener --listen=:$LISTEN_POST --connection-string="postgres://$PG_USER:$PG_PASSWORD@$PG_HOST:$PG_PORT/$PG_DATABASE?sslmode=disable"
+
+HEALTHCHECK --interval=1s --timeout=1s \
+    CMD curl --fail http://localhost:8080/ping
