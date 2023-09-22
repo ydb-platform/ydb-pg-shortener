@@ -7,7 +7,7 @@
         .parent {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(10, 1fr);
+            grid-template-rows: repeat(20, 1fr);
             grid-column-gap: 20px;
             grid-row-gap: 20px;
             width: calc(100vw - 60px);
@@ -15,16 +15,39 @@
             margin-left: 20px;
         }
 
-        .div1 {
-            grid-area: 1 / 1 / 4 / 3;
+        .header {
+            grid-row-start: 1;
+            grid-row-end: 1;
+            grid-column-start: 1;
+            grid-column-end: 2;
+        }
+
+        .text1 {
+            grid-row-start: 2;
+            grid-row-end: 4;
+            grid-column-start: 1;
+            grid-column-end: 1;
+        }
+
+        .text2 {
+            grid-row-start: 2;
+            grid-row-end: 4;
+            grid-column-start: 2;
+            grid-column-end: 2;
         }
 
         .shortener-control {
-            grid-area: 4 / 1 / 11 / 2;
+            grid-row-start: 6;
+            grid-row-end: 11;
+            grid-column-start: 1;
+            grid-column-end: 3;
         }
 
         .admin-control {
-            grid-area: 4 / 2 / 11 / 3;
+            grid-row-start: 12;
+            grid-row-end: 21;
+            grid-column-start: 1;
+            grid-column-end: 3;
         }
 
         a.button {
@@ -38,10 +61,6 @@
 
         }
 
-        a:link {
-            color: white;
-        }
-
         .button.active {
             background-color: green;
         }
@@ -49,34 +68,29 @@
 </header>
 <body>
 <div class="parent">
-    <div class="div1">
-        Перед вами приложение для сокращения ссылок. После отправки URL из поля ввода генерируется и сохраняется в базу
-        данных сокращенная ссылка.<br/>
-        Особенность этого приложения состоит в том, что оно использует PostgreSQL-драйвер для работы с базой данных, а
-        значит — совместимо и с YDB, и с PostgreSQL.<br/>
-        <br/>
-        На экране приложения вы можете выбрать базу данных, которая должна быть использована.
-        В соседних вкладках (можно ли так?) открыт интерфейс, из которого доступен просмотр содержимого обеих таблиц.
-        Можно наблюдать, как сокращенные ссылки сохраняются в выбранную базу.<br/>
+    <h1 class="header">Postgres-совместимость</h1>
+    <div class="text1">
+        Перед вами приложение для сокращения ссылок. После отправки URL из поля ввода генерируется и сохраняется в базу данных сокращенная ссылка.
+        Особенность этого приложения состоит в том, что оно использует PostgreSQL-драйвер и синтаксис для работы с базой данных.
+        Одно и то же приложение может работать как с PostgreSQL, так и с YDB, благодаря добавленной с версии {23.3} postgres-совместимости.
         <br/>
         <table>
             <tr>
-                <td height="60px"><a class="button ydb"
-                                     target="viewer">Shortener
-                        YDB</a></td>
+                <td height="60px"><a class="button ydb" target="viewer">Подключение к YDB</a></td>
                 <td width="40px">&nbsp</td>
-                <td height="60px"><a class="button postgres" target="viewer">Shortener
-                        Postgres</a>
-                </td>
-            </tr>
-            <tr>
-                <td height="60px"><a class="button ydb" target="viewer">YDB
-                        UI</a><br/></td>
-                <td width="40px">&nbsp</td>
-                <td height="60px"><a class="button postgres" target="viewer">PgAdmin</a><br/>
+                <td height="60px"><a class="button postgres" target="viewer">Подключение к Postgres</a>
                 </td>
             </tr>
         </table>
+    </div>
+    <div class="text2">
+        На экране приложения вы можете выбрать базу данных, которая должна быть использована. <br />
+        При нажатии на кнопку открывается интерфейс одного и того же сокращателя ссылок, подключенного к ydb или postgres.<br />
+        В соседнем окне открывается админка выбранной базы, там можно посмотреть содержимое базы.<br />
+        <br />
+        Пример можно запустить на своём компьютере через docker-compose<br />
+        Исходники: <a href="https://github.com/ydb-platform/ydb-pg-shortener">github.com/ydb-platform/ydb-pg-shortener</a>
+        <br/>
     </div>
     <div class="shortener-control ydb-control">
         <iframe name="shortener-ydb" style="width: 100%; height: 100%;"></iframe>
