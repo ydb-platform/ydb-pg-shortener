@@ -20,7 +20,7 @@ services:
     ports:
       - "2002:8080"
   ydb:
-    image: ghcr.io/ydb-platform/local-ydb:nightly
+    image: ghcr.io/ydb-platform/local-ydb@sha256:1106f8394a85b11ec4f8a8b420c9d5d3760e58166d0d7320c1dd2c49775bc4c3
     hostname: localhost
     restart: always
     healthcheck:
