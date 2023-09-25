@@ -66,8 +66,8 @@ services:
       - "PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False"
     ports:
       - "3002:80"
-    volumes:
-      - "./pgadmin:/var/lib/pgadmin"
+#    volumes:
+#      - "./pg-admin-tmp:/var/lib/pgadmin"
   nginx:
     image: nginx:1.25.2
     ports:
