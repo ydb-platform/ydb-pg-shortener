@@ -8,6 +8,7 @@ docker-compose up --build -d
 ```
 
 Then you can open:
+- Common Demo UI http://localhost:3000
 - URL Shortener with YDB on http://localhost:2001
 - YDB UI for YDB on http://localhost:3001
 - URL Shortener with Postgres on http://localhost:2002
