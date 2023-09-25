@@ -49,7 +49,7 @@ func (s *storageLigPQ) Ping(ctx context.Context) error {
 	if errors.Is(err, ErrNotFound) {
 		return nil
 	}
-	return nil
+	return err
 }
 
 func (s *storageLigPQ) PutURL(ctx context.Context, url string) (ID string, _ error) {
