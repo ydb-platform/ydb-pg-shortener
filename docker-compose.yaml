@@ -55,15 +55,19 @@ services:
       interval: 5s
       timeout: 1m
   pgadmin:
-    image: dpage/pgadmin4:7.6
+    build: pgadmin
     environment:
       - "PGADMIN_DEFAULT_EMAIL=test@test.com"
       - "PGADMIN_DEFAULT_PASSWORD=test"
       - "PGADMIN_CONFIG_X_FRAME_OPTIONS=\"\""
       - "PGADMIN_CONFIG_X_CONTENT_TYPE_OPTIONS=\"\""
       - "PGADMIN_CONFIG_X_XSS_PROTECTION=\"\""
+      - "PGADMIN_CONFIG_SERVER_MODE=False"
+      - "PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False"
     ports:
       - "3002:80"
+    volumes:
+      - "./pgadmin:/var/lib/pgadmin"
   nginx:
     image: nginx:1.25.2
     ports:
