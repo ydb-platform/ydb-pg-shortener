@@ -17,9 +17,15 @@ func main() {
 		logger.Fatal("failed connect to storage", zap.Error(err))
 	}
 
-	err = storage.Init(context.Background())
-	if err != nil {
-		logger.Fatal("failed to initialize storage", zap.Error(err))
+	if err = storage.Ping(context.Background()); err == nil {
+		logger.Info("Start on initialized db, skip init step")
+	} else {
+		logger.Info("Initialize database...")
+		err = storage.Init(context.Background())
+		if err != nil {
+			logger.Fatal("failed to initialize storage", zap.Error(err))
+		}
+		logger.Info("Initialization database completed.")
 	}
 
 	handler := NewHandler(logger, storage)

@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-
 	_ "github.com/lib/pq"
 )
 
@@ -43,6 +42,14 @@ func (s *storageLigPQ) Init(ctx context.Context) error {
 func (s *storageLigPQ) RemoveAllTables(ctx context.Context) error {
 	_, err := s.conn.ExecContext(ctx, "DROP TABLE IF EXISTS urls")
 	return err
+}
+
+func (s *storageLigPQ) Ping(ctx context.Context) error {
+	_, err := s.GetURL(ctx, "unknown-url")
+	if errors.Is(err, ErrNotFound) {
+		return nil
+	}
+	return nil
 }
 
 func (s *storageLigPQ) PutURL(ctx context.Context, url string) (ID string, _ error) {

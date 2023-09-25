@@ -148,12 +148,12 @@ func (s *Handler) addURL(ctx *gin.Context) {
 }
 
 func (s *Handler) pingDatabase(ctx *gin.Context) {
-	_, err := s.storage.GetURL(ctx, "unknown-url")
-	if errors.Is(err, ErrNotFound) {
-		_, _ = ctx.Writer.WriteString("OK\n")
+	err := s.storage.Ping(ctx)
+	if err != nil {
+		_ = ctx.AbortWithError(http.StatusInternalServerError, fmt.Errorf("got db error: %v", err))
 		return
 	}
-	_ = ctx.AbortWithError(http.StatusInternalServerError, fmt.Errorf("got db error: %v", err))
+	_, _ = ctx.Writer.WriteString("OK\n")
 }
 
 func (s *Handler) errorPage(ctx *gin.Context, code int, errorText string) {
