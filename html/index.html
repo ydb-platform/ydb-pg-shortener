@@ -68,11 +68,11 @@
 </header>
 <body>
 <div class="parent">
-    <h1 class="header">Postgres-совместимость</h1>
+    <h1 class="header">Postgres-compatible</h1>
     <div class="text1">
-        Перед вами приложение для сокращения ссылок. После отправки URL из поля ввода генерируется и сохраняется в базу данных сокращенная ссылка.
-        Особенность этого приложения состоит в том, что оно использует PostgreSQL-драйвер и синтаксис для работы с базой данных.
-        Одно и то же приложение может работать как с PostgreSQL, так и с YDB, благодаря добавленной postgres-совместимости начиная с версии 23.3 .
+        You have an application for link shortening. After submitting a URL from the input field, an abbreviated link is created and stored in the database.
+        The key feature of this application is its use of a PostgreSQL driver and database syntax.
+        This same application can function with both PostgreSQL and YDB due to the added PostgreSQL compatibility since version 23.3.
         <br/>
         <table>
             <tr>
@@ -84,12 +84,12 @@
         </table>
     </div>
     <div class="text2">
-        На экране приложения вы можете выбрать базу данных, которая должна быть использована. <br />
-        При нажатии на кнопку открывается интерфейс одного и того же сокращателя ссылок, подключенного к ydb или postgres.<br />
-        В соседнем окне открывается админка выбранной базы, там можно посмотреть содержимое базы.<br />
+        In the application interface, you can select the database that should be used. <br />
+        When you click on the button, the interface of the same link shortener connected to YDB or PostgreSQL opens.<br />
+        In the adjacent window, the admin panel of the selected database opens, where you can view the contents of the database.<br />
         <br />
-        Пример можно запустить на своём компьютере через docker-compose<br />
-        Исходники: <a href="https://github.com/ydb-platform/ydb-pg-shortener">github.com/ydb-platform/ydb-pg-shortener</a>
+        You can run an example on your computer through docker-compose.<br />
+        The source code is available at: <a href="https://github.com/ydb-platform/ydb-pg-shortener">github.com/ydb-platform/ydb-pg-shortener</a>
         <br/>
     </div>
     <div class="shortener-control ydb-control">
